@@ -137,11 +137,15 @@
   #password-gate { position: fixed; inset: 0; z-index: 99999; background: #001529; display: flex; align-items: center; justify-content: center; }
   #password-gate .gate-card { background: #fff; padding: 28px; border-radius: 8px; width: min(360px, 90vw); text-align: center; box-shadow: 0 8px 30px rgba(0,0,0,.35); }
   #password-gate input { width: 100%; margin: 14px 0 8px; padding: 10px; box-sizing: border-box; font-size: 16px; text-align: center; letter-spacing: 2px; }
+  #password-gate .btn-primary { color: #fff; background: #1890ff; border-color: #1890ff; transition: background .15s, box-shadow .15s; }
+  #password-gate .btn-primary:hover { color: #fff; background: #096dd9; border-color: #096dd9; }
+  #password-gate .btn-primary:focus-visible { outline: 3px solid #91caff; outline-offset: 3px; }
+  #password-gate .btn-primary:active { color: #fff; background: #0050b3; border-color: #0050b3; }
   #password-error { color: #f5222d; min-height: 20px; font-size: 12px; }
  .source-col{display:none!important} </style>
 </head>
 <body>
-<div id="password-gate"><div class="gate-card"><h2>考勤看板访问验证</h2><p>请输入访问密码后查看考勤数据</p><input id="dashboard-password" type="password" placeholder="请输入访问密码" aria-label="访问密码" autocomplete="off" onkeydown="if(event.key==='Enter') unlockDashboard()"><div id="password-error"></div><button class="btn btn-primary" onclick="unlockDashboard()">进入看板</button></div></div>
+<div id="password-gate"><div class="gate-card"><h2><span id="gate-period"></span> 考勤看板访问验证</h2><p>请输入访问密码后查看考勤数据</p><input id="dashboard-password" type="password" placeholder="请输入访问密码" aria-label="访问密码" autocomplete="off" onkeydown="if(event.key==='Enter') unlockDashboard()"><div id="password-error"></div><button class="btn btn-primary" onclick="unlockDashboard()">进入看板</button></div></div>
 
 <div id="dashboard-content" hidden>
 <header>
@@ -320,6 +324,7 @@
 <script src="data.js"></script>
 
 <script>
+document.getElementById('gate-period').textContent = ATTENDANCE_META.period.replace('-', '');
 let rawData = [];
 async function unlockDashboard() {
   const input = document.getElementById('dashboard-password');
